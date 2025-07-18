@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #fafafa;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+}
+
+@layer components {
+  /* カラーボックス */
+  .color-box {
+    @apply w-32 h-32 rounded-xl shadow-lg cursor-pointer transition-all duration-200;
+    @apply hover:scale-105 hover:shadow-xl;
+  }
+
+  /* カラーピッカー */
+  .color-picker {
+    @apply w-full h-64 rounded-lg border-2 border-gray-200 cursor-crosshair;
+  }
+
+  /* ボタン */
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded-lg font-medium;
+    @apply hover:bg-opacity-90 transition-colors;
+  }
+
+  /* カラー変更時のトランジション */
+  .color-transition {
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  /* カード表示アニメーション */
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
