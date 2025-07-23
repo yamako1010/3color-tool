@@ -7,6 +7,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* スムーズスクロール設定 */
+    html {
+      scroll-behavior: smooth;
+    }
+    
     body {
       font-family: 'Montserrat', 'Poppins', sans-serif;
       background-color: #121212;
@@ -1077,7 +1082,7 @@
 
     // テーマ選択カードのクリック機能
     themeOptions.forEach(option => {
-      option.addEventListener('click', function() {
+      const handleThemeSelection = function() {
         const theme = this.dataset.theme;
         
         // 全てのテーマ選択を非選択状態に
@@ -1123,12 +1128,29 @@
           // 生成された色セクションにスムーズスクロール
           const generatedColorsSection = document.getElementById('generated-colors-section');
           if (generatedColorsSection) {
-            generatedColorsSection.scrollIntoView({ 
-              behavior: 'smooth',
-              block: 'start'
-            });
+            // モバイル対応のスクロール実装
+            const elementTop = generatedColorsSection.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementTop - 20; // 少し上にマージンを設ける
+            
+            // モダンブラウザ対応
+            if ('scrollBehavior' in document.documentElement.style) {
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+              });
+            } else {
+              // フォールバック（古いブラウザ対応）
+              window.scrollTo(0, offsetPosition);
+            }
           }
         }
+      };
+      
+      // クリックとタッチイベントの両方に対応
+      option.addEventListener('click', handleThemeSelection);
+      option.addEventListener('touchend', function(e) {
+        e.preventDefault(); // タッチ時のデフォルト動作を防ぐ
+        handleThemeSelection.call(this);
       });
     });
 
